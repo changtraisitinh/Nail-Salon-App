@@ -47,7 +47,7 @@ export default function TabLayout() {
         options={{
           title: 'Scheduler',
           tabBarIcon: ({ color }) => <FeedIcon color={color} />,
-          headerRight: () => <CreateNewPostLink />,
+          // headerRight: () => <CreateNewPostLink />,
           tabBarButtonTestID: 'feed-tab',
         }}
       />
