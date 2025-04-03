@@ -1,195 +1,245 @@
-import {
-  type IAppointment,
-  type IAvailableDates,
-  TimeSlotPicker,
-} from '@dgreasi/react-native-time-slot-picker';
-import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
+import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { ScrollView, View } from 'react-native';
 
-import { type Post, usePosts } from '@/api';
-import { Card } from '@/components/card';
-import { SafeAreaView, Text } from '@/components/ui';
+import { FocusAwareStatusBar, SafeAreaView, Text } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 
 // Types
-type TimeSlotConfig = {
-  startHour: number;
-  endHour: number;
-  intervalMinutes: number;
-  excludeWeekends?: boolean;
-  daysToGenerate?: number;
-  lunchBreakStart?: number;
-  lunchBreakEnd?: number;
+type Service = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  duration: string;
+  image: string;
 };
 
-// Utility Functions
-function generateTimeSlots(
-  startHour: number,
-  endHour: number,
-  intervalMinutes: number,
-  lunchBreakStart?: number,
-  lunchBreakEnd?: number
-): string[] {
-  const slots: string[] = [];
-  for (let hour = startHour; hour < endHour; hour++) {
-    // Skip lunch break hours
-    if (
-      lunchBreakStart &&
-      lunchBreakEnd &&
-      hour >= lunchBreakStart &&
-      hour < lunchBreakEnd
-    ) {
-      continue;
-    }
+type Staff = {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  experience: string;
+};
 
-    const currentSlots = [];
-    for (let minute = 0; minute < 60; minute += intervalMinutes) {
-      const startTime = `${hour.toString().padStart(2, '0')}:${minute
-        .toString()
-        .padStart(2, '0')}`;
-      const endHour = minute + intervalMinutes >= 60 ? hour + 1 : hour;
-      const endMinute = (minute + intervalMinutes) % 60;
-      const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute
-        .toString()
-        .padStart(2, '0')}`;
+// Mock data
+const SERVICES: Service[] = [
+  {
+    id: '1',
+    name: 'Classic Manicure',
+    description: 'Basic nail care with polish',
+    price: 25,
+    duration: '45 min',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+  },
+  {
+    id: '2',
+    name: 'Gel Manicure',
+    description: 'Long-lasting gel polish application',
+    price: 35,
+    duration: '60 min',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+  },
+  {
+    id: '3',
+    name: 'Acrylic Nails',
+    description: 'Full set of acrylic nails',
+    price: 45,
+    duration: '90 min',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+  },
+  {
+    id: '4',
+    name: 'Nail Art',
+    description: 'Custom nail designs',
+    price: 15,
+    duration: '30 min',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+  },
+  {
+    id: '5',
+    name: 'Pedicure',
+    description: 'Foot care and polish',
+    price: 30,
+    duration: '60 min',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+  },
+];
 
-      currentSlots.push(`${startTime}-${endTime}`);
-    }
-    slots.push(...currentSlots);
-  }
-  return slots;
-}
+const STAFF: Staff[] = [
+  {
+    id: '1',
+    name: 'Sarah Johnson',
+    role: 'Senior Nail Artist',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+    experience: '5 years',
+  },
+  {
+    id: '2',
+    name: 'Emily Chen',
+    role: 'Nail Technician',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80',
+    experience: '3 years',
+  },
+  {
+    id: '3',
+    name: 'Maria Garcia',
+    role: 'Nail Specialist',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb',
+    experience: '4 years',
+  },
+];
 
-function generateAvailableDates({
-  startHour = 9,
-  endHour = 17,
-  intervalMinutes = 60,
-  excludeWeekends = true,
-  daysToGenerate = 7,
-  lunchBreakStart = 12,
-  lunchBreakEnd = 13,
-}: TimeSlotConfig): IAvailableDates[] {
-  const dates: IAvailableDates[] = [];
-
-  for (let i = 0; i < daysToGenerate; i++) {
-    const date = addDays(new Date(), i);
-    // Set time to start of day to avoid timezone issues
-    date.setHours(0, 0, 0, 0);
-    const isWeekend = [0, 6].includes(date.getDay());
-
-    dates.push({
-      date: date.toISOString(),
-      slotTimes:
-        excludeWeekends && isWeekend
-          ? []
-          : generateTimeSlots(
-              startHour,
-              endHour,
-              intervalMinutes,
-              lunchBreakStart,
-              lunchBreakEnd
-            ),
-    });
-  }
-
-  return dates;
-}
-
-// Generate available dates with custom configuration
-const AVAILABLE_DATES = generateAvailableDates({
-  startHour: 9, // 9 AM
-  endHour: 22, // 5 PM
-  intervalMinutes: 60, // 30-minute slots
-  excludeWeekends: false,
-  daysToGenerate: 7,
-  lunchBreakStart: 12, // 12 PM lunch break start
-  lunchBreakEnd: 13, // 1 PM lunch break end
-});
-
-// Debug log to verify generated dates
-console.log(
-  'Generated dates:',
-  AVAILABLE_DATES.map((d) => {
-    try {
-      return {
-        date: d.date,
-        parsedDate: format(parseISO(d.date), 'PPP'),
-        slots: d.slotTimes.length,
-      };
-    } catch (error) {
-      return {
-        date: d.date,
-        error: 'Failed to parse date',
-        slots: d.slotTimes.length,
-      };
-    }
-  })
-);
-
-export default function Feed() {
-  const { data, isPending, isError } = usePosts();
-  const [dateOfAppointment, setDateOfAppointment] =
-    useState<IAppointment | null>(null);
-
-  const renderItem = React.useCallback(
-    ({ item }: { item: Post }) => <Card {...item} />,
-    []
-  );
-
-  const handleDateChange = React.useCallback(
-    (appointment: IAppointment | null) => {
-      setDateOfAppointment(appointment);
-      if (appointment) {
-        console.log('Raw appointment data:', appointment);
-      }
-    },
-    []
-  );
-
-  if (isError) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-red-500">Error Loading data</Text>
+// Components
+function ServiceCard({ service }: { service: Service }) {
+  return (
+    <View className="m-2 w-[160px] overflow-hidden rounded-xl bg-white shadow-sm">
+      <Image
+        source={{ uri: service.image }}
+        className="h-32 w-full"
+        contentFit="cover"
+      />
+      <View className="p-3">
+        <Text className="font-semibold">{service.name}</Text>
+        <Text className="text-sm text-gray-600">{service.description}</Text>
+        <View className="mt-2 flex-row items-center justify-between">
+          <Text className="text-primary font-bold">${service.price}</Text>
+          <Text className="text-xs text-gray-500">{service.duration}</Text>
+        </View>
       </View>
-    );
-  }
+    </View>
+  );
+}
+
+function StaffCard({ staff }: { staff: Staff }) {
+  return (
+    <View className="m-2 w-[140px] items-center">
+      <Image
+        source={{ uri: staff.image }}
+        className="size-32 rounded-full"
+        contentFit="cover"
+      />
+      <Text className="mt-2 font-semibold">{staff.name}</Text>
+      <Text className="text-sm text-gray-600">{staff.role}</Text>
+      <Text className="text-xs text-gray-500">
+        {staff.experience} experience
+      </Text>
+    </View>
+  );
+}
+
+// Create separate components for each section
+function HeroSection() {
+  const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1">
-      {/* <FocusAwareStatusBar /> */}
-
-      {/* Posts List */}
-      {/* <View className="flex-1">
-        <FlashList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          ListEmptyComponent={<EmptyList isLoading={isPending} />}
-          estimatedItemSize={300}
-        />
-      </View> */}
-
-      {/* Time Slot Picker */}
-      <View className="bg-white">
-        <TimeSlotPicker
-          availableDates={AVAILABLE_DATES}
-          setDateOfAppointment={handleDateChange}
-          theme={{
-            backgroundColor: '#ffffff',
-            calendarTextColor: '#000000',
-            selectedDateBackgroundColor: '#007AFF',
-            selectedDateTextColor: '#ffffff',
-            dateTextColor: '#000000',
-            dayTextColor: '#000000',
-            timeSlotTextColor: '#000000',
-            timeSlotBackgroundColor: '#f0f0f0',
-            selectedTimeSlotBackgroundColor: '#007AFF',
-            selectedTimeSlotTextColor: '#ffffff',
+    <View className="relative h-[400px]">
+      <Image
+        source={{
+          uri: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+        }}
+        className="size-full"
+        contentFit="cover"
+      />
+      <View className="absolute inset-0 bg-black/40" />
+      <View className="absolute inset-0 items-center justify-center p-4">
+        <Text className="text-center text-4xl font-bold text-white">
+          Nail Haven
+        </Text>
+        <Text className="mt-2 text-center text-lg text-white">
+          Your Perfect Nail Experience Awaits
+        </Text>
+        <Button
+          className="mt-4"
+          onPress={() => {
+            router.push('/scheduler/book-appointment');
           }}
-        />
+        >
+          <Text className="text-white">Book Now</Text>
+        </Button>
       </View>
+    </View>
+  );
+}
+
+function AboutSection() {
+  return (
+    <View className="p-6">
+      <Text className="text-2xl font-bold">About Us</Text>
+      <Text className="mt-2 text-gray-600">
+        Welcome to Nail Haven, where beauty meets perfection. Our expert team
+        provides top-quality nail services in a relaxing environment.
+      </Text>
+    </View>
+  );
+}
+function ServicesSection() {
+  return (
+    <View className="p-4">
+      <Text className="mb-4 text-2xl font-bold">Our Services</Text>
+      <FlashList
+        data={SERVICES}
+        renderItem={({ item }) => <ServiceCard service={item} />}
+        keyExtractor={(item) => item.id}
+        horizontal
+        estimatedItemSize={200}
+        showsHorizontalScrollIndicator={false}
+      />
+    </View>
+  );
+}
+
+function StaffSection() {
+  return (
+    <View className="p-4">
+      <Text className="mb-4 text-2xl font-bold">Our Team</Text>
+      <FlashList
+        data={STAFF}
+        renderItem={({ item }) => <StaffCard staff={item} />}
+        keyExtractor={(item) => item.id}
+        horizontal
+        estimatedItemSize={140}
+        showsHorizontalScrollIndicator={false}
+      />
+    </View>
+  );
+}
+
+function CTASection() {
+  const router = useRouter();
+  return (
+    <View className="bg-primary m-6 rounded-xl p-6">
+      <Text className="text-center text-2xl font-bold text-white">
+        Ready for Your Perfect Nails?
+      </Text>
+      <Text className="mt-2 text-center text-white">
+        Book your appointment today and experience the difference
+      </Text>
+      <Button
+        variant="secondary"
+        className="mt-4"
+        onPress={() => router.push('/scheduler/book-appointment')}
+      >
+        <Text className="text-white">Schedule Appointment</Text>
+      </Button>
+    </View>
+  );
+}
+// Main component
+export default function LandingPage() {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <FocusAwareStatusBar />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <StaffSection />
+        <CTASection />
+      </ScrollView>
     </SafeAreaView>
   );
 }
