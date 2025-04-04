@@ -1,0 +1,34 @@
+{
+  "onboarding": {
+    "message": "Chào mừng đến với trang web ứng dụng Nail Salon"
+  },
+  "settings": {
+    "about": "Giới thiệu",
+    "app_name": "Tên ứng dụng",
+    "arabic": "Tiếng Ả Rập",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt",
+    "generale": "Chung",
+    "github": "Github",
+    "language": "Ngôn ngữ",
+    "links": "Liên kết",
+    "logout": "Đăng xuất",
+    "more": "Khác",
+    "privacy": "Chính sách quyền riêng tư",
+    "rate": "Đánh giá",
+    "share": "Chia sẻ",
+    "support": "Hỗ trợ",
+    "support_us": "Ủng hộ chúng tôi",
+    "terms": "Điều khoản dịch vụ",
+    "theme": {
+      "dark": "Tối",
+      "light": "Sáng",
+      "system": "Hệ thống",
+      "title": "Giao diện"
+    },
+    "title": "Cài đặt",
+    "version": "Phiên bản",
+    "website": "Trang web"
+  },
+  "welcome": "Chào mừng đến với trang web ứng dụng Nail Salon"
+}

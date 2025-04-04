@@ -1,12 +1,13 @@
 {
   "onboarding": {
-    "message": "Welcome to obytes app site"
+    "message": "Welcome to Nail Salon app"
   },
   "settings": {
     "about": "About",
     "app_name": "App Name",
     "arabic": "Arabic",
     "english": "English",
+    "vietnamese": "Vietnamese",
     "generale": "General",
     "github": "Github",
     "language": "Language",
@@ -29,5 +30,5 @@
     "version": "Version",
     "website": "Website"
   },
-  "welcome": "Welcome to obytes app site"
+  "welcome": "Welcome to Nail Salon app"
 }

@@ -119,6 +119,8 @@ export default function ServiceDetail() {
   const router = useRouter();
   const service = SERVICE_DETAILS[id];
 
+  console.log(id);
+
   if (!service) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-white">
