@@ -30,5 +30,35 @@
     "version": "Phiên bản",
     "website": "Trang web"
   },
-  "welcome": "Chào mừng đến với trang web ứng dụng Nail Salon"
+  "welcome": "Chào mừng đến với trang web ứng dụng Nail Salon",
+  "auth": {
+    "signIn": "Đăng Nhập",
+    "signUp": "Đăng Ký",
+    "welcome": "Chào mừng! 👋",
+    "signInMessage": "Đăng nhập vào tài khoản của bạn bằng email, số điện thoại và mật khẩu.",
+    "signUpMessage": "Tạo tài khoản mới bằng email, số điện thoại và mật khẩu.",
+    "name": "Họ và Tên",
+    "namePlaceholder": "Nguyễn Văn A",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "phone": "Số Điện Thoại",
+    "phonePlaceholder": "+84123456789",
+    "password": "Mật Khẩu",
+    "passwordPlaceholder": "***",
+    "confirmPassword": "Xác Nhận Mật Khẩu",
+    "haveAccount": "Đã có tài khoản? Đăng Nhập",
+    "noAccount": "Chưa có tài khoản? Đăng Ký",
+    "salonName": "Nail Salon Pro",
+    "salonTagline": "Vẻ Đẹp Của Bạn, Niềm Đam Mê Của Chúng Tôi"
+  },
+  "validation": {
+    "nameRequired": "Tên phải có ít nhất 2 ký tự",
+    "emailInvalid": "Email không hợp lệ",
+    "phoneInvalid": "Số điện thoại không hợp lệ",
+    "passwordRequired": "Vui lòng nhập mật khẩu",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+    "confirmPasswordRequired": "Vui lòng xác nhận mật khẩu",
+    "passwordsDontMatch": "Mật khẩu không khớp",
+    "emailOrPhoneRequired": "Vui lòng nhập email hoặc số điện thoại"
+  }
 }
