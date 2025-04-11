@@ -25,6 +25,7 @@ export class ServiceService {
     price: number;
     duration: number;
     category: string;
+    imageUrl?: string;
   }) {
     return prisma.service.create({
       data,
@@ -39,6 +40,7 @@ export class ServiceService {
       price?: number;
       duration?: number;
       category?: string;
+      imageUrl?: string;
     }
   ) {
     return prisma.service.update({
