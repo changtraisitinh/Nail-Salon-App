@@ -17,6 +17,7 @@ export class AppointmentService {
     serviceId: string;
     staffId: string;
     date: Date;
+    timeRange: string;
   }) {
     return prisma.appointment.create({
       data,
@@ -52,5 +53,15 @@ export class AppointmentService {
     }
 
     return appointment;
+  }
+
+  async updateAppointment(id: string, data: {
+    userId?: string;
+    serviceId?: string;
+    staffId?: string;
+    date?: Date;
+    timeRange?: string;
+  }) {
+    return prisma.appointment.update({ where: { id }, data });
   }
 }

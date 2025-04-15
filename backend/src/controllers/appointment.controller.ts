@@ -51,4 +51,15 @@ export class AppointmentController {
       handleError(res, error);
     }
   };
+
+  updateAppointment = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const appointmentData = req.body;
+      const appointment = await this.appointmentService.updateAppointment(id, appointmentData);
+      res.json(appointment);
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
 }
