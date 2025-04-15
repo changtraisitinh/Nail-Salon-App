@@ -14,5 +14,6 @@ router.put(
   appointmentController.cancelAppointment
 );
 router.get('/:id', authMiddleware, appointmentController.getAppointmentById);
+router.put('/:id', authMiddleware, appointmentController.updateAppointment);
 
 export default router;
