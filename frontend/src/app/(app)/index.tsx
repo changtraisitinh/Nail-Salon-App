@@ -153,19 +153,19 @@ function ServicesSection() {
 
   useEffect(() => {
     const fetchServices = async () => {
-      console.log('Fetching services from API...');
+      // console.log('Fetching services from API...');
       try {
         const response = await fetch('http://localhost:3000/api/services');
-        console.log('Response status:', response.status);
+        // console.log('Response status:', response.status);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('Fetched services:', data);
+        // console.log('Fetched services:', data);
         
         // Check if data is an array and has items
         if (Array.isArray(data) && data.length > 0) {
-          console.log('Data is an array and has items:', data);
+          // console.log('Data is an array and has items:', data);
           setServices(data);
         } else {
           console.warn('Fetched data is not an array or is empty:', data);
@@ -190,8 +190,6 @@ function ServicesSection() {
 
     fetchServices();
   }, []);
-
-  console.log('Current services state:', services); // Log the current state of services
 
   return (
     <View className="p-4">

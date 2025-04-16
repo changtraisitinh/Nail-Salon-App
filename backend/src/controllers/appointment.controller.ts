@@ -2,6 +2,8 @@ import { type Request, type Response } from 'express';
 
 import { AppointmentService } from '../services/appointment.service';
 import { handleError } from '../utils/error.utils';
+import Appointment from '../models/appointment.model';
+import Service from '../models/service.model';
 
 export class AppointmentController {
   private appointmentService: AppointmentService;
@@ -13,8 +15,10 @@ export class AppointmentController {
   getUserAppointments = async (req: Request, res: Response) => {
     try {
       const userId = req.user.userId;
+      console.log('userId', userId);
       const appointments =
         await this.appointmentService.getUserAppointments(userId);
+      console.log('appointments', appointments);
       res.json(appointments);
     } catch (error) {
       handleError(res, error);
