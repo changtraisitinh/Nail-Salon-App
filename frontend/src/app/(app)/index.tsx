@@ -134,6 +134,20 @@ function AboutSection() {
   );
 }
 
+function ContactSection() {
+  return (
+    <View className="p-6">
+      <Text className="mt-4 text-lg font-semibold">Contact Us</Text>
+      <Text className="mt-1 text-gray-600">Phone: +1 (234) 567-890</Text>
+      <Text className="mt-1 text-gray-600">Address: 123 Nail Haven St, Beauty City</Text>
+      <Text className="mt-1 text-gray-600">
+        Facebook: <Text style={{ color: 'blue' }}>facebook.com/nailhaven</Text>
+      </Text>
+      <Text className="mt-1 text-gray-600">Zalo: +1 (234) 567-890</Text>
+    </View>
+  );
+}
+
 function ServicesSection() {
   const [services, setServices] = useState<Service[]>([]);
 
@@ -245,6 +259,7 @@ export default function LandingPage() {
         <AboutSection />
         <ServicesSection />
         <StaffSection />
+        <ContactSection />
         <CTASection />
       </ScrollView>
     </SafeAreaView>

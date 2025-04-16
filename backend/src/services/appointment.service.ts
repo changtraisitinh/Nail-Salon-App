@@ -18,15 +18,27 @@ export class AppointmentService {
     staffId: string;
     date: Date;
     timeRange: string;
-  }) {
-    return prisma.appointment.create({
-      data,
-      include: {
-        service: true,
-        staff: true,
-        user: true,
-      },
-    });
+    note: string;
+  }): Promise<string> {
+    try {
+      if (!data.userId || !data.serviceId || !data.staffId || !data.date || !data.timeRange) {
+        throw new Error('Missing required fields');
+      }
+
+      const newAppointment = await prisma.appointment.create({
+        data,
+        include: {
+          service: true,
+          staff: true,
+          user: true,
+        },
+      });
+
+      return newAppointment.id;
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      throw new Error(`Could not create appointment: ${error.message}`);
+    }
   }
 
   async cancelAppointment(id: string) {

@@ -37,7 +37,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <FeedIcon color={color} />,
-          // headerRight: () => <BookNowLink />,
+          headerRight: () => <BookNowLink />,
           tabBarButtonTestID: 'home-tab',
         }}
       />
@@ -48,19 +48,19 @@ export default function TabLayout() {
           title: 'Services',
           headerShown: false,
           tabBarIcon: ({ color }) => <StyleIcon color={color} />,
-          tabBarButtonTestID: 'style-tab',
+          tabBarButtonTestID: 'services-tab',
         }}
       />
 
-      {/* <Tabs.Screen
-        name="style"
+      <Tabs.Screen
+        name="appointments"
         options={{
-          title: 'Style',
+          title: 'Appointments',
           headerShown: false,
           tabBarIcon: ({ color }) => <StyleIcon color={color} />,
-          tabBarButtonTestID: 'style-tab',
+          tabBarButtonTestID: 'appointments-tab',
         }}
-      /> */}
+      />
 
       <Tabs.Screen
         name="settings"

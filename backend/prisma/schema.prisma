@@ -45,6 +45,7 @@ model Appointment {
   staff         Staff        @relation(fields: [staffId], references: [id])
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  note         String?
 }
 
 model Staff {
