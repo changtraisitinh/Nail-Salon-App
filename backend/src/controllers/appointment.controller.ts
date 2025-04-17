@@ -2,8 +2,6 @@ import { type Request, type Response } from 'express';
 
 import { AppointmentService } from '../services/appointment.service';
 import { handleError } from '../utils/error.utils';
-import Appointment from '../models/appointment.model';
-import Service from '../models/service.model';
 
 export class AppointmentController {
   private appointmentService: AppointmentService;

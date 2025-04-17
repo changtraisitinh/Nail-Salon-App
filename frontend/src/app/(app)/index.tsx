@@ -95,16 +95,14 @@ function HeroSection() {
   return (
     <View className="relative h-[400px]">
       <Image
-        source={{
-          uri: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
-        }}
+        source={require('../../../assets/images/nail_salon_services_category.jpg')}
         className="size-full"
         contentFit="cover"
       />
       <View className="absolute inset-0 bg-black/40" />
       <View className="absolute inset-0 items-center justify-center p-4">
         <Text className="text-center text-4xl font-bold text-white">
-          Nail Haven
+          Nail LyLy
         </Text>
         <Text className="mt-2 text-center text-lg text-white">
           Your Perfect Nail Experience Awaits
@@ -127,7 +125,7 @@ function AboutSection() {
     <View className="p-6">
       <Text className="text-2xl font-bold">About Us</Text>
       <Text className="mt-2 text-gray-600">
-        Welcome to Nail Haven, where beauty meets perfection. Our expert team
+        Welcome to Nail LyLy, where beauty meets perfection. Our expert team
         provides top-quality nail services in a relaxing environment.
       </Text>
     </View>
@@ -139,9 +137,9 @@ function ContactSection() {
     <View className="p-6">
       <Text className="mt-4 text-lg font-semibold">Contact Us</Text>
       <Text className="mt-1 text-gray-600">Phone: +1 (234) 567-890</Text>
-      <Text className="mt-1 text-gray-600">Address: 123 Nail Haven St, Beauty City</Text>
+      <Text className="mt-1 text-gray-600">Address: 123 Nail LyLy St, Beauty City</Text>
       <Text className="mt-1 text-gray-600">
-        Facebook: <Text style={{ color: 'blue' }}>facebook.com/nailhaven</Text>
+        Facebook: <Text style={{ color: 'blue' }}>facebook.com/naillyly</Text>
       </Text>
       <Text className="mt-1 text-gray-600">Zalo: +1 (234) 567-890</Text>
     </View>
