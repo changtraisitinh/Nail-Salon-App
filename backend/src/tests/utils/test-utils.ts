@@ -30,6 +30,8 @@ export const createTestService = async () => {
       description: 'Test Description',
       price: 50,
       duration: 60,
+      category: 'MANICURE',
+      imageUrl: 'https://example.com/image.jpg',
     },
   });
 };

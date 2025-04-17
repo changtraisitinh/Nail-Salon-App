@@ -12,6 +12,11 @@ export class AppointmentController {
 
   getUserAppointments = async (req: Request, res: Response) => {
     try {
+      // Check if user exists in request
+      if (!req.user) {
+        return res.status(401).json({ message: 'User not authenticated' });
+      }
+
       const userId = req.user.userId;
       console.log('userId', userId);
       const appointments =

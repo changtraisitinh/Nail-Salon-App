@@ -37,7 +37,7 @@ export class AppointmentService {
       return newAppointment.id;
     } catch (error) {
       console.error('Error creating appointment:', error);
-      throw new Error(`Could not create appointment: ${error.message}`);
+      throw new Error(`Could not create appointment: An unknown error occurred`);
     }
   }
 
