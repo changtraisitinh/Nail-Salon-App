@@ -1,5 +1,8 @@
 import cors from 'cors';
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import { specs } from './docs/swagger';
 
 import { config } from './config/env';
 import { errorMiddleware } from './middlewares/error.middleware';
@@ -28,6 +31,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/staff', staffRoutes);
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, {
+  explorer: true,
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Nail Salon API Documentation"
+}));
+
 // Error handling
 app.use(errorMiddleware);
 
