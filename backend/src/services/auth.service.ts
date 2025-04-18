@@ -9,6 +9,8 @@ const prisma = new PrismaClient();
 interface TokenPayload {
   userId: string;
   email: string;
+  name: string;
+  phone: string;
 }
 
 interface AuthResponse {
@@ -151,7 +153,9 @@ export class AuthService {
   private generateToken(user: User): string {
     const payload: TokenPayload = {
       userId: user.id,
-      email: user.email
+      email: user.email || '',
+      name: user.name || '',
+      phone: user.phone || ''
     };
 
     try {

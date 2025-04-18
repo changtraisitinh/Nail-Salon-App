@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Env } from '@env';
 import { useColorScheme } from 'nativewind';
+import { Image } from 'expo-image';
 
 import { Item } from '@/components/settings/item';
 import { ItemsContainer } from '@/components/settings/items-container';
@@ -15,12 +16,17 @@ import {
 } from '@/components/ui';
 import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
 import { translate, useAuth } from '@/lib';
-
+import { jwtDecode } from 'jwt-decode';
 export default function Settings() {
   const signOut = useAuth.use.signOut();
+  const token = useAuth.use.getToken();
   const { colorScheme } = useColorScheme();
   const iconColor =
     colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
+
+  console.log(token);
+  const user = token?.access ? jwtDecode(token.access) : null;
+
   return (
     <>
       <FocusAwareStatusBar />
@@ -30,6 +36,22 @@ export default function Settings() {
           <Text className="text-xl font-bold">
             {translate('settings.title')}
           </Text>
+
+          <View className="mt-4 mb-6 flex-row items-center p-4 bg-white rounded-xl shadow-sm">
+            <Image
+              source={user?.imageUrl || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330'}
+              className="w-16 h-16 rounded-full"
+              contentFit="cover"
+            />
+            <View className="ml-4">
+              <Text className="text-lg font-semibold">
+                <Text className="text-blue-500">Hi</Text> {user?.name || 'Guest'}
+              </Text>
+              <Text className="text-sm text-gray-500">{user?.email || 'guest@example.com'}</Text>
+              <Text className="text-sm text-gray-500">{user?.phone || '+84 909 090 909'}</Text>
+            </View>
+          </View>
+
           <ItemsContainer title="settings.generale">
             <LanguageItem />
             <ThemeItem />

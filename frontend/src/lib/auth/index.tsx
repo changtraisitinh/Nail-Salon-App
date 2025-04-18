@@ -38,6 +38,8 @@ const _useAuth = create<AuthState>((set, get) => ({
     }
   },
   getToken: () => {
+    const token = get().token;
+    console.log(token);
     return get().token;
   },
 }));
