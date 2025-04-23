@@ -5,22 +5,22 @@ const prisma = new PrismaClient();
 
 // Define input interfaces
 interface CreateServiceInput {
-  name: string;
-  description: string;
-  price: number;
-  duration: number;
+    name: string;
+    description: string;
+    price: number;
+    duration: number;
   category: Category; // Using the Prisma-generated Category enum
-  imageUrl?: string;
-}
+    imageUrl?: string;
+  }
 
 interface UpdateServiceInput {
-  name?: string;
-  description?: string;
-  price?: number;
-  duration?: number;
+      name?: string;
+      description?: string;
+      price?: number;
+      duration?: number;
   category?: Category;
-  imageUrl?: string;
-}
+      imageUrl?: string;
+    }
 
 export class ServiceService {
   /**
@@ -57,7 +57,7 @@ export class ServiceService {
   async updateService(id: string, data: UpdateServiceInput): Promise<Service> {
     try {
       return await prisma.service.update({
-        where: { id },
+      where: { id },
         data: {
           ...(data.name && { name: data.name }),
           ...(data.description && { description: data.description }),
@@ -101,9 +101,9 @@ export class ServiceService {
     } catch (error) {
       throw ErrorFactory.system('Failed to fetch services', {
         error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
+    });
   }
+}
 
   /**
    * Get service by ID

@@ -38,7 +38,7 @@ export const authMiddleware = (
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).json({ message: 'Invalid token' });
     }
     return res.status(500).json({ message: 'Authentication error' });
   }
