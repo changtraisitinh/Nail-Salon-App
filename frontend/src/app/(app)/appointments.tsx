@@ -28,7 +28,6 @@ export default function Appointments() {
       }
 
       const data = await response.json();
-      console.log('data', data);
       setAppointments(data); // Assuming the API returns an array of appointments
     } catch (error) {
       console.error('Error fetching appointments:', error);
@@ -40,14 +39,6 @@ export default function Appointments() {
   const searchAppointmentsByFilters = async () => {
     const token = getToken();
     try {
-
-      console.log('searchAppointmentsByFilters > ', searchQuery);
-      console.log('searchAppointmentsByFilters > ', JSON.stringify({
-        query: {
-          note: searchQuery,
-        },
-      }));
-
       const response = await fetch('http://localhost:3000/api/appointments/filters', {
         headers: {
           'Authorization': `Bearer ${token?.access}`,
@@ -66,7 +57,6 @@ export default function Appointments() {
       }
 
       const data = await response.json();
-      console.log('searchAppointmentsByFilters > ', data);
       setAppointments(data); // Assuming the API returns an array of appointments
     } catch (error) {
       console.error('Error fetching appointments:', error);

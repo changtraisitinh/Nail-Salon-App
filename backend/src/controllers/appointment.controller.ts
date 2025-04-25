@@ -65,7 +65,6 @@ export class AppointmentController {
 
   searchAppointmentsByFilters = async (req: Request, res: Response) => {
     try {
-      console.log('filters', req.body);
       const filters = req.body.query;
 
       if (!filters) {

@@ -66,7 +66,6 @@ export default function BookAppointment() {
   );
 
   const onSubmit = async (data: FormType) => {
-    console.log('data', data);
     console.log('appointmentId', appointmentId);
     try {
       const token = getToken();

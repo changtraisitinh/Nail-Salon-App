@@ -64,7 +64,6 @@ export default function Services() {
       }
 
       const data = await response.json();
-      console.log('data', data);
       setServices(data); // Assuming the API returns an array of appointments
     } catch (error) {
       console.error('Error fetching services:', error);

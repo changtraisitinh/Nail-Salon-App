@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Env } from '@env';
+import { useEffect, useState } from 'react';
 import { useColorScheme } from 'nativewind';
 import { Image } from 'expo-image';
 
@@ -17,20 +18,43 @@ import {
 import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
 import { translate, useAuth } from '@/lib';
 import { jwtDecode } from 'jwt-decode';
+import { Linking } from 'react-native';
+// const { getToken } = useAuth();
+
+
 export default function Settings() {
   const signOut = useAuth.use.signOut();
-  const token = useAuth.use.getToken();
+  const getToken = useAuth.use.getToken();
+  
   const { colorScheme } = useColorScheme();
   const iconColor =
     colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
 
-  console.log(token);
-  const user = token?.access ? jwtDecode(token.access) : null;
+  const [user, setUser] = useState(null); 
+
+  useEffect(() => {
+    console.log('useEffect');
+    const getTokenOnce = async () => {
+      try {
+        if (getToken() !== null) {
+          const userToken = getToken();
+          const decodedToken = jwtDecode(userToken?.access || '');
+
+          setUser(decodedToken);
+        }
+      } catch (e) {
+        // catch error here
+        console.log(e);
+      }
+    };
+    
+    getTokenOnce();
+  }, []);
 
   return (
+    
     <>
       <FocusAwareStatusBar />
-
       <ScrollView>
         <View className="flex-1 px-4 pt-16 ">
           <Text className="text-xl font-bold">
@@ -39,7 +63,7 @@ export default function Settings() {
 
           <View className="mt-4 mb-6 flex-row items-center p-4 bg-white rounded-xl shadow-sm">
             <Image
-              source={user?.imageUrl || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330'}
+              source={'https://images.unsplash.com/photo-1494790108377-be9c29b29330'}
               className="w-16 h-16 rounded-full"
               contentFit="cover"
             />
@@ -81,7 +105,9 @@ export default function Settings() {
           </ItemsContainer>
 
           <ItemsContainer title="settings.links">
-            <Item text="settings.privacy" onPress={() => {}} />
+            <Item text="settings.privacy" onPress={() => {
+              Linking.openURL('https://changtraisitinh.github.io/app-privacy-policy.html')
+            }} />
             <Item text="settings.terms" onPress={() => {}} />
             <Item
               text="settings.github"
