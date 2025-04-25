@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, ActivityIndicator, RefreshControl } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, ActivityIndicator, RefreshControl, TextInput } from 'react-native';
 import { useAuth } from '@/lib/auth'; // Assuming you have an auth context to get the user token
 import AppointmentCard from '@/components/appointments/AppointmentCard'; // Corrected import path
 import Timeline from '@/components/appointments/Timeline'; // Import the Timeline component
@@ -10,6 +10,8 @@ export default function Appointments() {
   const [loading, setLoading] = useState(true); // Loading state
   const [refreshing, setRefreshing] = useState(false); // Refreshing state
   const { getToken } = useAuth(); // Assuming you have a method to get the user's token
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+
 
   const fetchAppointments = async () => {
     const token = getToken();
@@ -53,8 +55,31 @@ export default function Appointments() {
     );
   };
 
+   // Function to group appointments by date
+   const groupAppointmentsByDate = (appointments) => {
+    return appointments.reduce((groups, appointment) => {
+      const date = new Date(appointment.date).toDateString(); // Assuming appointment.date is a valid date
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(appointment);
+      return groups;
+    }, {});
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
+      <View className="p-4">
+      <View className="flex-row items-center border border-gray-300 rounded p-2 mb-4"> {/* Wrap in a flex-row */}
+        <Icon name="search" size={20} color="#000" className="mr-2" /> {/* Search icon */}
+        <TextInput
+          placeholder="Search appointments..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={{ flex: 1, padding: 0 }} // Make TextInput take remaining space
+        />
+      </View>
+    </View>
       <ScrollView
         className="flex-1 p-4"
         refreshControl={
