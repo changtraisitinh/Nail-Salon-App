@@ -23,8 +23,6 @@ export default function Appointments() {
         },
       });
 
-      
-
       if (!response.ok) {
         throw new Error('Failed to fetch appointments');
       }
@@ -38,6 +36,44 @@ export default function Appointments() {
       setLoading(false); // Set loading to false after the API call
     }
   };
+
+  const searchAppointmentsByFilters = async () => {
+    const token = getToken();
+    try {
+
+      console.log('searchAppointmentsByFilters > ', searchQuery);
+      console.log('searchAppointmentsByFilters > ', JSON.stringify({
+        query: {
+          note: searchQuery,
+        },
+      }));
+
+      const response = await fetch('http://localhost:3000/api/appointments/filters', {
+        headers: {
+          'Authorization': `Bearer ${token?.access}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          query: {
+            note: searchQuery.toLowerCase(),
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch appointments');
+      }
+
+      const data = await response.json();
+      console.log('searchAppointmentsByFilters > ', data);
+      setAppointments(data); // Assuming the API returns an array of appointments
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
+    } finally {
+      setLoading(false); // Set loading to false after the API call
+    }
+  }
 
   useEffect(() => {
     fetchAppointments(); // Fetch appointments on component mount
@@ -55,27 +91,16 @@ export default function Appointments() {
     );
   };
 
-   // Function to group appointments by date
-   const groupAppointmentsByDate = (appointments) => {
-    return appointments.reduce((groups, appointment) => {
-      const date = new Date(appointment.date).toDateString(); // Assuming appointment.date is a valid date
-      if (!groups[date]) {
-        groups[date] = [];
-      }
-      groups[date].push(appointment);
-      return groups;
-    }, {});
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <View className="p-4">
-      <View className="flex-row items-center border border-gray-300 rounded p-2 mb-4"> {/* Wrap in a flex-row */}
-        <Icon name="search" size={20} color="#000" className="mr-2" /> {/* Search icon */}
+      <View className="flex-row items-center border border-gray-300 rounded p-2 mb-4">
+        <Icon name="search" size={20} color="#000" className="mr-2" /> 
         <TextInput
           placeholder="Search appointments..."
           value={searchQuery}
           onChangeText={setSearchQuery}
+          onBlur={() => searchAppointmentsByFilters()} // Fetch appointments on blur
           style={{ flex: 1, padding: 0 }} // Make TextInput take remaining space
         />
       </View>

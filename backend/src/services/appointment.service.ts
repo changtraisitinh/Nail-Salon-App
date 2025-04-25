@@ -1,17 +1,10 @@
 import prisma from '../utils/database.utils';
 
 export class AppointmentService {
-  async getUserAppointments(userId: string) {
-    return prisma.appointment.findMany({
-      where: { userId },
-      include: {
-        service: true,
-        staff: true,
-      },
-      orderBy: { date: 'desc' },
-    });
-  }
 
+  // CRUD
+  // Create, Read, Update, Delete
+  // CREATE
   async createAppointment(data: {
     userId: string;
     serviceId: string;
@@ -41,12 +34,25 @@ export class AppointmentService {
     }
   }
 
-  async cancelAppointment(id: string) {
-    return prisma.appointment.update({
-      where: { id },
-      data: {
-        status: 'CANCELLED',
+  // READ
+  async getAllAppointments() {
+    return prisma.appointment.findMany({
+      include: {
+        service: true,
+        staff: true,
+        user: true,
       },
+    });
+  }
+
+  async getUserAppointments(userId: string) {
+    return prisma.appointment.findMany({
+      where: { userId },
+      include: {
+        service: true,
+        staff: true,
+      },
+      orderBy: { date: 'desc' },
     });
   }
 
@@ -67,6 +73,16 @@ export class AppointmentService {
     return appointment;
   }
 
+  async searchAppointmentsByFilters(filters: {
+    note?: string;
+  }) {
+    return prisma.appointment.findMany({
+      where: filters
+    });
+  }
+
+
+  // UPDATE
   async updateAppointment(id: string, data: {
     userId?: string;
     serviceId?: string;
@@ -76,4 +92,20 @@ export class AppointmentService {
   }) {
     return prisma.appointment.update({ where: { id }, data });
   }
+
+  // DELETE
+  async deleteAppointment(id: string) {
+    return prisma.appointment.delete({ where: { id } });
+  }
+  
+  // CANCEL
+  async cancelAppointment(id: string) {
+    return prisma.appointment.update({
+      where: { id },
+      data: {
+        status: 'CANCELLED',
+      },
+    });
+  }
+
 }

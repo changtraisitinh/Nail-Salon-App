@@ -10,6 +10,30 @@ export class AppointmentController {
     this.appointmentService = new AppointmentService();
   }
 
+  // CRUD
+  // Create, Read, Update, Delete
+  // CREATE
+  createAppointment = async (req: Request, res: Response) => {
+    try {
+      const appointmentData = req.body;
+      const appointment =
+        await this.appointmentService.createAppointment(appointmentData);
+      res.status(201).json(appointment);
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
+
+  // READ
+  getAllAppointments = async (req: Request, res: Response) => {
+    try {
+      const appointments = await this.appointmentService.getAllAppointments();
+      res.json(appointments);
+    } catch (error) {
+      handleError(res, error);
+    }
+  }
+
   getUserAppointments = async (req: Request, res: Response) => {
     try {
       // Check if user exists in request
@@ -29,27 +53,6 @@ export class AppointmentController {
     }
   };
 
-  createAppointment = async (req: Request, res: Response) => {
-    try {
-      const appointmentData = req.body;
-      const appointment =
-        await this.appointmentService.createAppointment(appointmentData);
-      res.status(201).json(appointment);
-    } catch (error) {
-      handleError(res, error);
-    }
-  };
-
-  cancelAppointment = async (req: Request, res: Response) => {
-    try {
-      const { id } = req.params;
-      await this.appointmentService.cancelAppointment(id);
-      res.status(204).send();
-    } catch (error) {
-      handleError(res, error);
-    }
-  };
-
   getAppointmentById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -60,6 +63,23 @@ export class AppointmentController {
     }
   };
 
+  searchAppointmentsByFilters = async (req: Request, res: Response) => {
+    try {
+      console.log('filters', req.body);
+      const filters = req.body.query;
+
+      if (!filters) {
+        return res.status(400).json({ message: 'Missing filters' });
+      }
+      
+      const appointments = await this.appointmentService.searchAppointmentsByFilters(filters);
+      res.json(appointments);
+    } catch (error) {
+      handleError(res, error);
+    }
+  }
+
+  // UPDATE
   updateAppointment = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -70,4 +90,34 @@ export class AppointmentController {
       handleError(res, error);
     }
   };
+
+  // DELETE
+  deleteAppointment = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await this.appointmentService.deleteAppointment(id);
+      res.status(204).send();
+    } catch (error) {
+      handleError(res, error);
+    }
+  }
+
+  // CANCEL
+  cancelAppointment = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await this.appointmentService.cancelAppointment(id);
+      res.status(204).send();
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
+
+  
+
+  
+
+  
+
+  
 }
