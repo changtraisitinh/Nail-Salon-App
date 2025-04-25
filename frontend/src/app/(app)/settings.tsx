@@ -19,6 +19,9 @@ import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
 import { translate, useAuth } from '@/lib';
 import { jwtDecode } from 'jwt-decode';
 import { Linking } from 'react-native';
+import { Facebook } from '@/components/ui/icons/facebook';
+import { Instagram } from '@/components/ui/icons/instagram';
+import { Zalo } from '@/components/ui/icons/zalo';
 // const { getToken } = useAuth();
 
 
@@ -110,13 +113,23 @@ export default function Settings() {
             }} />
             <Item text="settings.terms" onPress={() => {}} />
             <Item
-              text="settings.github"
-              icon={<Github color={iconColor} />}
+              text="settings.website"
+              icon={<Website color={iconColor} />}
               onPress={() => {}}
             />
             <Item
-              text="settings.website"
-              icon={<Website color={iconColor} />}
+              text="settings.zalo"
+              icon={<Zalo color={iconColor} />}
+              onPress={() => {}}
+            />
+            <Item
+              text="settings.facebook"
+              icon={<Facebook color={iconColor} />}
+              onPress={() => {}}
+            />
+            <Item
+              text="settings.instagram"
+              icon={<Instagram color={iconColor} />}
               onPress={() => {}}
             />
           </ItemsContainer>
