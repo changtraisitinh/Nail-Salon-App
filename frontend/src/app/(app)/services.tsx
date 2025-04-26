@@ -10,7 +10,9 @@ import {
   Text,
   View,
 } from '@/components/ui';
-import { useEffect } from 'react';
+import { RefreshControl } from 'react-native';
+import { useEffect, useState } from 'react';
+import { fetchServices } from '@/api/services/services';
 
 // Types
 type ServiceCategory = {
@@ -48,22 +50,14 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
 export default function Services() {
 
   const [services, setServices] = React.useState<ServiceCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const { getToken } = useAuth();
-  const fetchServices = async () => {
+  const loadServices = async () => {
     const token = getToken();
     try {
-      const response = await fetch('http://localhost:3000/api/services', {
-        headers: {
-          'Authorization': `Bearer ${token?.access}`,
-        },
-        });
-        
-      if (!response.ok) {
-        throw new Error('Failed to fetch services');
-      }
-
-      const data = await response.json();
-      setServices(data); // Assuming the API returns an array of appointments
+      const servicesData = await fetchServices(token);
+      setServices(servicesData); // Assuming the API returns an array of appointments
     } catch (error) {
       console.error('Error fetching services:', error);
     } finally {
@@ -72,13 +66,23 @@ export default function Services() {
   };
 
   useEffect(() => {
-    fetchServices(); // Fetch appointments on component mount
+    loadServices(); // Fetch appointments on component mount
   }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadServices();
+    setRefreshing(false);
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <FocusAwareStatusBar />
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View className="p-4">
           <Text className="mb-6 text-2xl font-bold">Our Services</Text>
           {services.map((category) => (

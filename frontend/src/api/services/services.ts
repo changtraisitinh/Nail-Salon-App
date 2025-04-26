@@ -1,15 +1,22 @@
 import axios from 'axios';
+import { Env } from '@/lib/env';
+import { TokenType } from '@/lib/auth/utils';
 
-const API_URL = 'http://localhost:3000/api/services';
 
-export const fetchServices = async () => {
+export const fetchServices = async (token: TokenType) => {
   try {
-    const response = await axios.get(API_URL, {
+    const response = await fetch(`${Env.API_URL}/api/services`, {
       headers: {
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token?.access}`,
       },
-    });
-    return response.data;
+      });
+      
+    if (!response.ok) {
+      throw new Error('Failed to fetch services');
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('Error fetching services:', error);
     throw error;

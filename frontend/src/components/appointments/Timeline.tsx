@@ -49,7 +49,7 @@ const Timeline: React.FC<TimelineProps> = ({ appointments }) => {
             <TouchableOpacity style={styles.closeButton} onPress={() => appointment.onClose(appointment.id)}>
               <Icon name="times" size={20} color="#FF0000" />
             </TouchableOpacity>
-            <Text style={styles.serviceId}>Service ID: {appointment?.service?.name}</Text>
+            <Text style={styles.serviceId}>Service Name: {appointment?.service?.name}</Text>
             <Text style={styles.date}>Date: {new Date(appointment.date).toLocaleDateString()}</Text>
             <Text style={styles.time}>Time: <Text style={styles.timeValue}>{appointment.timeRange}</Text></Text>
             <Text style={styles.note}>Note: {appointment.note}</Text>
