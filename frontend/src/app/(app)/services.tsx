@@ -51,7 +51,6 @@ export default function Services() {
   const { getToken } = useAuth();
   const fetchServices = async () => {
     const token = getToken();
-    console.log('token', token);
     try {
       const response = await fetch('http://localhost:3000/api/services', {
         headers: {

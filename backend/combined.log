@@ -1053,3 +1053,55 @@
 {"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T07:55:49.229Z"}
 {"level":"debug","message":"Query: SELECT \"public\".\"Staff\".\"id\", \"public\".\"Staff\".\"name\", \"public\".\"Staff\".\"email\", \"public\".\"Staff\".\"phone\", \"public\".\"Staff\".\"avatarUrl\", \"public\".\"Staff\".\"createdAt\", \"public\".\"Staff\".\"updatedAt\" FROM \"public\".\"Staff\" WHERE \"public\".\"Staff\".\"id\" IN ($1) OFFSET $2","timestamp":"2025-04-25T07:55:49.229Z"}
 {"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T07:55:49.229Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Appointment\".\"id\", \"public\".\"Appointment\".\"userId\", \"public\".\"Appointment\".\"serviceId\", \"public\".\"Appointment\".\"staffId\", \"public\".\"Appointment\".\"date\", \"public\".\"Appointment\".\"timeRange\", \"public\".\"Appointment\".\"status\"::text, \"public\".\"Appointment\".\"createdAt\", \"public\".\"Appointment\".\"updatedAt\", \"public\".\"Appointment\".\"note\" FROM \"public\".\"Appointment\" WHERE \"public\".\"Appointment\".\"userId\" = $1 ORDER BY \"public\".\"Appointment\".\"date\" DESC OFFSET $2","timestamp":"2025-04-25T14:12:34.378Z"}
+{"level":"debug","message":"Duration: 1ms","timestamp":"2025-04-25T14:12:34.378Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Service\".\"id\", \"public\".\"Service\".\"name\", \"public\".\"Service\".\"description\", \"public\".\"Service\".\"price\", \"public\".\"Service\".\"duration\", \"public\".\"Service\".\"category\"::text, \"public\".\"Service\".\"createdAt\", \"public\".\"Service\".\"updatedAt\", \"public\".\"Service\".\"imageUrl\" FROM \"public\".\"Service\" WHERE \"public\".\"Service\".\"id\" IN ($1,$2) OFFSET $3","timestamp":"2025-04-25T14:12:34.378Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:12:34.378Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Staff\".\"id\", \"public\".\"Staff\".\"name\", \"public\".\"Staff\".\"email\", \"public\".\"Staff\".\"phone\", \"public\".\"Staff\".\"avatarUrl\", \"public\".\"Staff\".\"createdAt\", \"public\".\"Staff\".\"updatedAt\" FROM \"public\".\"Staff\" WHERE \"public\".\"Staff\".\"id\" IN ($1) OFFSET $2","timestamp":"2025-04-25T14:12:34.379Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:12:34.379Z"}
+{"level":"debug","message":"Query: SELECT 1","timestamp":"2025-04-25T14:13:57.130Z"}
+{"level":"debug","message":"Duration: 1ms","timestamp":"2025-04-25T14:13:57.131Z"}
+{"level":"debug","message":"Query: BEGIN","timestamp":"2025-04-25T14:13:57.132Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:13:57.132Z"}
+{"level":"debug","message":"Query: INSERT INTO \"public\".\"Appointment\" (\"id\",\"userId\",\"serviceId\",\"staffId\",\"date\",\"timeRange\",\"status\",\"createdAt\",\"updatedAt\",\"note\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Status\"),$8,$9,$10) RETURNING \"public\".\"Appointment\".\"id\"","timestamp":"2025-04-25T14:13:57.147Z"}
+{"level":"debug","message":"Duration: 13ms","timestamp":"2025-04-25T14:13:57.147Z"}
+{"level":"debug","message":"Query: ROLLBACK","timestamp":"2025-04-25T14:13:57.147Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:13:57.147Z"}
+{"level":"error","message":"Database Error: \nInvalid `prisma.appointment.create()` invocation in\n/Users/mac/Engineering/GitHub/fullstack-engineering-learning/frontend/obytes/obytes-hello-project/backend/src/services/appointment.service.ts:21:55\n\n  18   throw new Error('Missing required fields');\n  19 }\n  20 \n→ 21 const newAppointment = await prisma.appointment.create(\nForeign key constraint violated: `Appointment_userId_fkey (index)`","timestamp":"2025-04-25T14:13:57.156Z"}
+{"level":"debug","message":"Query: BEGIN","timestamp":"2025-04-25T14:24:06.551Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:24:06.552Z"}
+{"level":"debug","message":"Query: INSERT INTO \"public\".\"Appointment\" (\"id\",\"userId\",\"serviceId\",\"staffId\",\"date\",\"timeRange\",\"status\",\"createdAt\",\"updatedAt\",\"note\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Status\"),$8,$9,$10) RETURNING \"public\".\"Appointment\".\"id\"","timestamp":"2025-04-25T14:24:06.555Z"}
+{"level":"debug","message":"Duration: 3ms","timestamp":"2025-04-25T14:24:06.556Z"}
+{"level":"debug","message":"Query: ROLLBACK","timestamp":"2025-04-25T14:24:06.556Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:24:06.556Z"}
+{"level":"error","message":"Database Error: \nInvalid `prisma.appointment.create()` invocation in\n/Users/mac/Engineering/GitHub/fullstack-engineering-learning/frontend/obytes/obytes-hello-project/backend/src/services/appointment.service.ts:21:55\n\n  18   throw new Error('Missing required fields');\n  19 }\n  20 \n→ 21 const newAppointment = await prisma.appointment.create(\nForeign key constraint violated: `Appointment_userId_fkey (index)`","timestamp":"2025-04-25T14:24:06.558Z"}
+{"level":"debug","message":"Query: BEGIN","timestamp":"2025-04-25T14:39:30.818Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:39:30.819Z"}
+{"level":"debug","message":"Query: INSERT INTO \"public\".\"Appointment\" (\"id\",\"userId\",\"serviceId\",\"staffId\",\"date\",\"timeRange\",\"status\",\"createdAt\",\"updatedAt\",\"note\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Status\"),$8,$9,$10) RETURNING \"public\".\"Appointment\".\"id\"","timestamp":"2025-04-25T14:39:30.821Z"}
+{"level":"debug","message":"Duration: 2ms","timestamp":"2025-04-25T14:39:30.821Z"}
+{"level":"debug","message":"Query: ROLLBACK","timestamp":"2025-04-25T14:39:30.821Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:39:30.821Z"}
+{"level":"error","message":"Database Error: \nInvalid `prisma.appointment.create()` invocation in\n/Users/mac/Engineering/GitHub/fullstack-engineering-learning/frontend/obytes/obytes-hello-project/backend/src/services/appointment.service.ts:21:55\n\n  18   throw new Error('Missing required fields');\n  19 }\n  20 \n→ 21 const newAppointment = await prisma.appointment.create(\nForeign key constraint violated: `Appointment_userId_fkey (index)`","timestamp":"2025-04-25T14:39:30.822Z"}
+{"level":"debug","message":"Query: BEGIN","timestamp":"2025-04-25T14:39:39.390Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:39:39.390Z"}
+{"level":"debug","message":"Query: INSERT INTO \"public\".\"Appointment\" (\"id\",\"userId\",\"serviceId\",\"staffId\",\"date\",\"timeRange\",\"status\",\"createdAt\",\"updatedAt\",\"note\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Status\"),$8,$9,$10) RETURNING \"public\".\"Appointment\".\"id\"","timestamp":"2025-04-25T14:39:39.393Z"}
+{"level":"debug","message":"Duration: 2ms","timestamp":"2025-04-25T14:39:39.393Z"}
+{"level":"debug","message":"Query: ROLLBACK","timestamp":"2025-04-25T14:39:39.393Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:39:39.393Z"}
+{"level":"error","message":"Database Error: \nInvalid `prisma.appointment.create()` invocation in\n/Users/mac/Engineering/GitHub/fullstack-engineering-learning/frontend/obytes/obytes-hello-project/backend/src/services/appointment.service.ts:21:55\n\n  18   throw new Error('Missing required fields');\n  19 }\n  20 \n→ 21 const newAppointment = await prisma.appointment.create(\nForeign key constraint violated: `Appointment_userId_fkey (index)`","timestamp":"2025-04-25T14:39:39.393Z"}
+{"level":"debug","message":"Query: SELECT 1","timestamp":"2025-04-25T14:40:44.738Z"}
+{"level":"debug","message":"Duration: 1ms","timestamp":"2025-04-25T14:40:44.738Z"}
+{"level":"debug","message":"Query: BEGIN","timestamp":"2025-04-25T14:40:44.738Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.738Z"}
+{"level":"debug","message":"Query: INSERT INTO \"public\".\"Appointment\" (\"id\",\"userId\",\"serviceId\",\"staffId\",\"date\",\"timeRange\",\"status\",\"createdAt\",\"updatedAt\",\"note\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Status\"),$8,$9,$10) RETURNING \"public\".\"Appointment\".\"id\"","timestamp":"2025-04-25T14:40:44.740Z"}
+{"level":"debug","message":"Duration: 1ms","timestamp":"2025-04-25T14:40:44.740Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Appointment\".\"id\", \"public\".\"Appointment\".\"userId\", \"public\".\"Appointment\".\"serviceId\", \"public\".\"Appointment\".\"staffId\", \"public\".\"Appointment\".\"date\", \"public\".\"Appointment\".\"timeRange\", \"public\".\"Appointment\".\"status\"::text, \"public\".\"Appointment\".\"createdAt\", \"public\".\"Appointment\".\"updatedAt\", \"public\".\"Appointment\".\"note\" FROM \"public\".\"Appointment\" WHERE \"public\".\"Appointment\".\"id\" = $1 LIMIT $2 OFFSET $3","timestamp":"2025-04-25T14:40:44.740Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.740Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Service\".\"id\", \"public\".\"Service\".\"name\", \"public\".\"Service\".\"description\", \"public\".\"Service\".\"price\", \"public\".\"Service\".\"duration\", \"public\".\"Service\".\"category\"::text, \"public\".\"Service\".\"createdAt\", \"public\".\"Service\".\"updatedAt\", \"public\".\"Service\".\"imageUrl\" FROM \"public\".\"Service\" WHERE \"public\".\"Service\".\"id\" IN ($1) OFFSET $2","timestamp":"2025-04-25T14:40:44.741Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.741Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"Staff\".\"id\", \"public\".\"Staff\".\"name\", \"public\".\"Staff\".\"email\", \"public\".\"Staff\".\"phone\", \"public\".\"Staff\".\"avatarUrl\", \"public\".\"Staff\".\"createdAt\", \"public\".\"Staff\".\"updatedAt\" FROM \"public\".\"Staff\" WHERE \"public\".\"Staff\".\"id\" IN ($1) OFFSET $2","timestamp":"2025-04-25T14:40:44.741Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.741Z"}
+{"level":"debug","message":"Query: SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"password\", \"public\".\"User\".\"name\", \"public\".\"User\".\"phone\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"id\" IN ($1) OFFSET $2","timestamp":"2025-04-25T14:40:44.741Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.742Z"}
+{"level":"debug","message":"Query: COMMIT","timestamp":"2025-04-25T14:40:44.742Z"}
+{"level":"debug","message":"Duration: 0ms","timestamp":"2025-04-25T14:40:44.742Z"}

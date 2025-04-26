@@ -15,7 +15,6 @@ export default function Appointments() {
 
   const fetchAppointments = async () => {
     const token = getToken();
-    console.log('token', token);
     try {
       const response = await fetch('http://localhost:3000/api/appointments', {
         headers: {

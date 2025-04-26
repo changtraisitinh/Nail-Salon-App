@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TextInput, Text, View, FlatList, TouchableOpacity } from 'react-native';
-
+import { jwtDecode } from 'jwt-decode';
 import { type Post, useAddPost } from '@/api';
 import { Card } from '@/components/card';
 import {
@@ -69,11 +69,14 @@ export default function BookAppointment() {
     console.log('appointmentId', appointmentId);
     try {
       const token = getToken();
+      const user = jwtDecode(token?.access || '');
+      console.log('user', user);
+
       const appointmentData = {
-        userId: "99288e30-5576-4286-9452-e60c9f1f61e2",
+        userId: user?.userId || '', // Use the user ID
         serviceId: selectedService?.id, // Use the selected service ID
         staffId: "32281634-f927-47e4-97d2-73acfc1aa70b",
-        date: dateOfAppointment?.date,
+        date: dateOfAppointment?.date || '', // Use the selected date,
         timeRange: timeRange,
         note: data.note,
       };

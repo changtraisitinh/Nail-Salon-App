@@ -117,7 +117,7 @@ function AftercareTips({ tips }: { tips: string[] }) {
 export default function ServiceDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const service = SERVICE_DETAILS[id];
+  const service = SERVICE_DETAILS["1"];
 
   console.log(id);
 
