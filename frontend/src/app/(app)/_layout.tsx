@@ -7,6 +7,7 @@ import {
   Feed as FeedIcon,
   Settings as SettingsIcon,
   Style as StyleIcon,
+  Home as HomeIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
 
@@ -36,7 +37,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <FeedIcon color={color} />,
+          tabBarIcon: ({ color }) => <HomeIcon color={color} />,
           headerRight: () => <BookNowLink />,
           tabBarButtonTestID: 'home-tab',
         }}
@@ -57,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: 'Appointments',
           headerShown: false,
-          tabBarIcon: ({ color }) => <StyleIcon color={color} />,
+          tabBarIcon: ({ color }) => <FeedIcon color={color} />,
           tabBarButtonTestID: 'appointments-tab',
         }}
       />
