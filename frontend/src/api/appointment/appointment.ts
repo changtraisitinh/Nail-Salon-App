@@ -1,25 +1,30 @@
 import { TokenType } from '@/lib/auth/utils';
 import axios from 'axios';
+import { Env } from '@/lib/env';
 
-const API_URL = 'http://localhost:3000/api/appointments';
-
-export const fetchAppointments = async () => {
+export const fetchAppointments = async (token: TokenType) => {
   try {
-    const response = await axios.get(API_URL, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
+    const response = await fetch(`${Env.API_URL}/api/appointments`, {
+        headers: {
+          'Authorization': `Bearer ${token?.access}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch appointments');
+      }
+
+      const data = await response.json();
+      return data;
   } catch (error) {
     console.error('Error fetching appointments:', error);
     throw error;
   }
 };
 
-export const searchAppointmentsByFilters = async (token: TokenType, filters: any) => {
+export const searchAppointmentsByFilters = async (token: TokenType, searchQuery: string) => {
   try {
-    const response = await fetch('http://localhost:3000/api/appointments/filters', {
+    const response = await fetch(`${Env.API_URL}/api/appointments/filters`, {
         headers: {
           'Authorization': `Bearer ${token?.access}`,
           'Content-Type': 'application/json',
@@ -27,7 +32,7 @@ export const searchAppointmentsByFilters = async (token: TokenType, filters: any
         method: 'POST',
         body: JSON.stringify({
           query: {
-            note: filters.toLowerCase(),
+            note: searchQuery.toLowerCase(),
           },
         }),
       });
