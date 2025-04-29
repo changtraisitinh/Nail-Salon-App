@@ -5,6 +5,22 @@ const service_service_1 = require("../services/service.service");
 const error_utils_1 = require("../utils/error.utils");
 class ServiceController {
     constructor() {
+        // CRUD
+        // Create, Read, Update, Delete
+        // CREATE
+        this.createService = async (req, res) => {
+            try {
+                // const serviceData = req.body;
+                const serviceData = Object.assign(Object.assign({}, req.body), { category: req.body.category // Ensure category is cast to enum
+                 });
+                const service = await this.serviceService.createService(serviceData);
+                res.status(201).json(service);
+            }
+            catch (error) {
+                (0, error_utils_1.handleError)(res, error);
+            }
+        };
+        // READ
         this.getAllServices = async (req, res) => {
             try {
                 const services = await this.serviceService.getAllServices();
@@ -24,18 +40,7 @@ class ServiceController {
                 (0, error_utils_1.handleError)(res, error);
             }
         };
-        this.createService = async (req, res) => {
-            try {
-                // const serviceData = req.body;
-                const serviceData = Object.assign(Object.assign({}, req.body), { category: req.body.category // Ensure category is cast to enum
-                 });
-                const service = await this.serviceService.createService(serviceData);
-                res.status(201).json(service);
-            }
-            catch (error) {
-                (0, error_utils_1.handleError)(res, error);
-            }
-        };
+        // UPDATE
         this.updateService = async (req, res) => {
             try {
                 const { id } = req.params;
@@ -47,6 +52,7 @@ class ServiceController {
                 (0, error_utils_1.handleError)(res, error);
             }
         };
+        // DELETE
         this.deleteService = async (req, res) => {
             try {
                 const { id } = req.params;

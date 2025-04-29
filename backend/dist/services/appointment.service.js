@@ -6,16 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentService = void 0;
 const database_utils_1 = __importDefault(require("../utils/database.utils"));
 class AppointmentService {
-    async getUserAppointments(userId) {
-        return database_utils_1.default.appointment.findMany({
-            where: { userId },
-            include: {
-                service: true,
-                staff: true,
-            },
-            orderBy: { date: 'desc' },
-        });
-    }
+    // CRUD
+    // Create, Read, Update, Delete
+    // CREATE
     async createAppointment(data) {
         try {
             if (!data.userId || !data.serviceId || !data.staffId || !data.date || !data.timeRange) {
@@ -36,12 +29,24 @@ class AppointmentService {
             throw new Error(`Could not create appointment: An unknown error occurred`);
         }
     }
-    async cancelAppointment(id) {
-        return database_utils_1.default.appointment.update({
-            where: { id },
-            data: {
-                status: 'CANCELLED',
+    // READ
+    async getAllAppointments() {
+        return database_utils_1.default.appointment.findMany({
+            include: {
+                service: true,
+                staff: true,
+                user: true,
             },
+        });
+    }
+    async getUserAppointments(userId) {
+        return database_utils_1.default.appointment.findMany({
+            where: { userId },
+            include: {
+                service: true,
+                staff: true,
+            },
+            orderBy: { date: 'desc' },
         });
     }
     async getAppointmentById(id) {
@@ -58,8 +63,27 @@ class AppointmentService {
         }
         return appointment;
     }
+    async searchAppointmentsByFilters(filters) {
+        return database_utils_1.default.appointment.findMany({
+            where: filters
+        });
+    }
+    // UPDATE
     async updateAppointment(id, data) {
         return database_utils_1.default.appointment.update({ where: { id }, data });
+    }
+    // DELETE
+    async deleteAppointment(id) {
+        return database_utils_1.default.appointment.delete({ where: { id } });
+    }
+    // CANCEL
+    async cancelAppointment(id) {
+        return database_utils_1.default.appointment.update({
+            where: { id },
+            data: {
+                status: 'CANCELLED',
+            },
+        });
     }
 }
 exports.AppointmentService = AppointmentService;
